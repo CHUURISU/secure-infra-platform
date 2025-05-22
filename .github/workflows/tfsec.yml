@@ -1,0 +1,24 @@
+name: Terraform Security Scan
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  tfsec:
+    name: Run tfsec scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install tfsec
+        run: |
+          curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+
+      - name: Run tfsec on environments/staging
+        run: |
+          tfsec environments/staging
